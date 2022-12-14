@@ -33,16 +33,16 @@ class Album extends Component {
     return (
       <div data-testid="page-album">
         <Header />
-        <h3>Olá</h3>
-        <p data-testid="artist-name">
-          {`Nome da banda: ${albumData.artistName}`}
+        <img src={ albumData.artworkUrl60 } alt={ albumData.artistName } />
+        <h2 data-testid="artist-name">
+          {albumData.artistName}
           {' '}
-        </p>
-        <p data-testid="album-name">
+        </h2>
+        <h4 data-testid="album-name">
           {' '}
-          {`Nome do Álbum: ${albumData.collectionName}`}
+          {albumData.collectionName}
           {' '}
-        </p>
+        </h4>
         <div>
           {
             songs.map((song) => (
