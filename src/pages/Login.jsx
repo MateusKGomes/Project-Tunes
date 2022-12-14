@@ -44,7 +44,7 @@ class Login extends Component {
     const { buttonDisabled, loading, redirect } = this.state;
     return (
       <div data-testid="page-login">
-        <h3>Login</h3>
+        <h3>Faça seu Login</h3>
         {
           loading ? <Loading /> : (
             <div>

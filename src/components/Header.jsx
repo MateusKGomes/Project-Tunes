@@ -33,7 +33,8 @@ class Header extends Component {
           data-testid="header-component"
         >
           {
-            loading ? <Loading /> : <h3 data-testid="header-user-name">{userName}</h3>
+            loading ? <Loading />
+              : <h3 data-testid="header-user-name">{`Seja bem-vindo, ${userName}!`}</h3>
           }
           <ul>
             <li>
