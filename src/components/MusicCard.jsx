@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
 
 class MusicCard extends Component {
   state = {
-    isLoadgin: false,
-    hasFavorite: false,
+    isLoadgin: true,
+    favorites: [],
   };
 
-  //   onInputChange = ({ target: { name, type, value, checked } }) => {
-  //     const verifyType = type === 'checkbox' ? checked : value;
-  //     this.setState((prevState) => ({
-  //       ...prevState,
-  //       [name]: verifyType,
-  //     }));
-  //   };
+  componentDidMount() {
+    this.favoriteSongs();
+  }
 
   submitFavoriteSong = ({ target: { checked } }) => {
     this.setState({
@@ -25,22 +21,24 @@ class MusicCard extends Component {
 
       if (checked) {
         await addSong(music);
-        this.setState({
-          hasFavorite: true,
-        });
+        await this.favoriteSongs();
       } else {
-        this.setState({
-          hasFavorite: false,
-        });
+        await removeSong(music);
+        await this.favoriteSongs();
       }
-      this.setState({
-        isLoadgin: false,
-      });
+    });
+  };
+
+  favoriteSongs = async () => {
+    const saves = await getFavoriteSongs();
+    this.setState({
+      isLoadgin: false,
+      favorites: saves,
     });
   };
 
   render() {
-    const { isLoadgin, hasFavorite } = this.state;
+    const { isLoadgin, favorites } = this.state;
     const { music } = this.props;
     return (
       <div>
@@ -67,7 +65,8 @@ class MusicCard extends Component {
                     name="favorite"
                     id={ music.trackId }
                     onChange={ this.submitFavoriteSong }
-                    checked={ hasFavorite }
+                    checked={ favorites
+                      .some((favorite) => favorite.trackId === music.trackId) }
                   />
                 </label>
               </div>
